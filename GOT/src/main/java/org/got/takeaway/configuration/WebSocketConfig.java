@@ -1,25 +1,42 @@
 package org.got.takeaway.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * @author Aqib
+ * @version 0.0.1-RELEASE
+ * @since 10/02/2021
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Autowired
+    private AuthChannelInterceptor interceptor;
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // broker will send message to client with prefix
-        registry.enableSimpleBroker("/got/sender");
+        registry.enableSimpleBroker("/queue");
         // message will received on @MessageMapping with prefix
-        registry.setApplicationDestinationPrefixes("/got/receiver");
+        registry.setApplicationDestinationPrefixes("/app");
+        registry.setPreservePublishOrder(true);
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/got/takeaway").withSockJS();
+        // Enable endpoint for sockJs client
+        registry.addEndpoint("/takeaway-websockets").withSockJS();
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(interceptor);
     }
 }

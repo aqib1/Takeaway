@@ -15,8 +15,34 @@
 <nav></nav>
 <section></section>
 <main>
-<button id="connect" type="submit"> Connect </button>
-<button id="disconnect" type="submit"> Disconnect</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <header id="header">
+                    <h2>Game of Three</h2>
+                </header>
+            </div>
+        </div>
+
+        <div class="col-md-11">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" id="name" class="form-control" placeholder="Enter your name..">
+                </div>
+                <div class="form-group">
+                    <label for="mode">Game Mode</label>
+                    <select class="form-control" id="mode">
+                        <option>Auto</option>
+                        <option>Manual</option>
+                    </select>
+                </div>
+                <button id="play" class="btn btn-primary" type="submit">
+                    Play</button>
+
+                <button class="btn btn-danger" id="close" type="button">Close</button>
+            </div>
+        </div>
+    </div>
 </main>
 <summary></summary>
 <footer></footer>

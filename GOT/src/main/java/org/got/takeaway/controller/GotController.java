@@ -1,9 +1,16 @@
 package org.got.takeaway.controller;
 
+import org.got.takeaway.domain.game.GameResponse;
+import org.got.takeaway.service.Impl.GameServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+
+import java.security.Principal;
+
+import static org.got.takeaway.utils.AppConst.USERNAME;
 
 /**
  * @author Aqib
@@ -17,10 +24,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GotController {
 
+    @Autowired
+    private GameServiceImpl gameService;
+
     @MessageMapping("/start")
-    @SendToUser("/got/sender/state")
-    public String test(String n) {
-        return "Starting Game";
+    @SendToUser("/queue/advise")
+    public GameResponse start(Principal principal, SimpMessageHeaderAccessor accessor) {
+        accessor.getSessionAttributes().put(USERNAME, principal.getName());
+        return gameService.start(principal.getName());
     }
 
 }
