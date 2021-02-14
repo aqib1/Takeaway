@@ -9,7 +9,7 @@ public class GameResponse {
     private String message;
     private String opponent;
     private GameStatus status;
-    private int value;
-    private int play;
+    private boolean primary;
+    private int number;
     private boolean isWin;
 }

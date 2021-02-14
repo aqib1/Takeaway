@@ -4,9 +4,8 @@ import org.got.takeaway.domain.player.Player;
 import org.got.takeaway.domain.player.PlayerStatus;
 import org.got.takeaway.repositories.PlayerRepository;
 import org.springframework.stereotype.Repository;
-import java.util.*;
-
-import static java.util.Optional.ofNullable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class PlayerRepositoryImpl implements PlayerRepository {
@@ -19,15 +18,15 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     }
 
     @Override
-    public Optional<Player> findByName(String name) {
-        return ofNullable(availablePlayer.get(name));
+    public Player findByName(String name) {
+        return availablePlayer.get(name);
     }
 
     @Override
-    public Optional<Player> findAvailable(String name) {
-        return ofNullable(availablePlayer.values().stream()
+    public Player findAvailable(String name) {
+        return availablePlayer.values().stream()
                 .filter(x -> x.getPlayerStatus() == PlayerStatus.AVAILABLE && !x.getName().equals(name))
-                .findFirst().orElse(null));
+                .findFirst().orElse(null);
     }
 
     @Override
@@ -39,5 +38,4 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     public boolean isExists(String name) {
         return availablePlayer.containsKey(name);
     }
-
 }

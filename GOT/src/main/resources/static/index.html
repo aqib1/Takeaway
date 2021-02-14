@@ -7,7 +7,10 @@
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/game_status.js"></script>
+    <script src="js/sockjs.js"></script>
+    <script src="js/game.js"></script>
 </head>
 <body>
 <header></header>
@@ -23,25 +26,80 @@
                 </header>
             </div>
         </div>
-
-        <div class="col-md-11">
-            <div class="form-inline">
-                <div class="form-group">
+        <div class="row top10">
+            <div class="col-md-11">
+                <div class="form-inline">
+                    <div class="form-group">
                     <input type="text" id="name" class="form-control" placeholder="Enter your name..">
-                </div>
+                    </div>
                 <div class="form-group">
-                    <label for="mode">Game Mode</label>
-                    <select class="form-control" id="mode">
-                        <option>Auto</option>
+                    <label for="gameMode">Game Mode</label>
+                    <select class="form-control" id="gameMode">
+                        <option selected>Auto</option>
                         <option>Manual</option>
                     </select>
                 </div>
                 <button id="play" class="btn btn-primary" type="submit">
                     Play</button>
-
-                <button class="btn btn-danger" id="close" type="button">Close</button>
+                    <button class="btn btn-danger" id="close" type="button">Close</button>
+                </div>
             </div>
         </div>
+
+        <div class="row top10">
+            <div class="alert alert-warning col-md-12" role="alert" id="errorDisplay" style="display: none;">
+                 <span></span>
+            </div>
+        </div>
+
+        <div id="playView">
+
+        <div class="row top10" id="randNumbSec" style="display:none">
+            <div class="col-md-11">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="number" id="randomNumber" class="form-control" placeholder="Enter any random number..">
+                    </div>
+                    <button id="sendNumber" class="btn btn-success" type="submit">
+                        Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row top10" id="addSlctrDiv" style="display:none">
+            <div class="col-md-12">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="addSelect">Select options:</label>
+                        <select class="form-control" id="addSelect">
+                            <option value="-1"> -1 </option>
+                            <option value="0"> 0 </option>
+                            <option value="1"> 1 </option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" id="btnNumberAdder" type="submit">
+                        Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row top10">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width:80%;">Game Board <strong id="opponent"></strong></th>
+                    </tr>
+                    </thead>
+                    <tbody id="game_body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div>
+
+
     </div>
 </main>
 <summary></summary>

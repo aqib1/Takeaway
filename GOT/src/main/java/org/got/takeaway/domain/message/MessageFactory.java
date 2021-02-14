@@ -18,11 +18,34 @@ public class MessageFactory {
     public GameResponse startingResponse(Player player) {
         return GameResponse.builder()
                 .status(GameStatus.START)
-                .opponent(player.getOpponent().getName())
-                .message(String.format("%s requested a match", player.getOpponent().getName()))
+                .opponent(player.getName())
+                .primary(player.isPrimary())
+                .message(String.format("[You're playing against: <span>%s</span>]", player.getName()))
                 .build();
     }
 
+    public GameResponse playResponse(int number, Player player) {
+        return GameResponse.builder()
+                .status(GameStatus.PLAY)
+                .opponent(player.getName())
+                .number(number)
+                .message(String.format("%s player sent number %d", player.getName(), number))
+                .build();
+    }
+
+    public GameResponse gameOverResponse(boolean winner) {
+        return GameResponse.builder()
+                .status(GameStatus.OVER)
+                .isWin(winner)
+                .build();
+    }
+
+    public GameResponse disconnectResponse(String player) {
+        return GameResponse.builder()
+                .status(GameStatus.DISCONNECT)
+                .message(String.format("%s disconnected from game", player))
+                .build();
+    }
 
     /**
      * Initialization on demand holder pattern

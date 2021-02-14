@@ -1,5 +1,7 @@
 package org.got.takeaway.configuration;
 
+import org.got.takeaway.exceptions.DuplicatePlayerException;
+import org.got.takeaway.exceptions.RequestException;
 import org.got.takeaway.repositories.impl.PlayerRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -10,7 +12,6 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
-
 import static java.util.Optional.ofNullable;
 import static org.got.takeaway.utils.AppConst.USERNAME;
 
@@ -28,13 +29,20 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
             ofNullable(accessor.getFirstNativeHeader(USERNAME))
                   .filter(name -> !StringUtils.isEmpty(name))
                   .ifPresentOrElse(name -> {
+                      playerAlreadyExists(name);
                       accessor.setUser(() -> name);
                   }, () -> {
+                        throw new RequestException("Name required to proceed with the game!!!");
                   });
         }
 
         return message;
     }
 
+    private void playerAlreadyExists(String name) {
+        if(repository.isExists(name)) {
+            throw new DuplicatePlayerException("Player already exists with same name");
+        }
+    }
 
 }

@@ -10,5 +10,6 @@ import lombok.*;
 public class Player {
     private String name;
     private Player opponent;
+    private boolean primary;
     private PlayerStatus playerStatus;
 }

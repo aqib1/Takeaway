@@ -1,8 +1,10 @@
 package org.got.takeaway.controller;
 
+import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.service.Impl.GameServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 
-import static org.got.takeaway.utils.AppConst.USERNAME;
+import static org.got.takeaway.utils.AppConst.*;
 
 /**
  * @author Aqib
@@ -27,11 +29,21 @@ public class GotController {
     @Autowired
     private GameServiceImpl gameService;
 
-    @MessageMapping("/start")
-    @SendToUser("/queue/advise")
-    public GameResponse start(Principal principal, SimpMessageHeaderAccessor accessor) {
+    @MessageMapping(START_REQUEST_URL)
+    @SendToUser(UPDATE_QUEUE_URL)
+    public ResponseEntity<GameResponse> start(Principal principal, SimpMessageHeaderAccessor accessor) {
         accessor.getSessionAttributes().put(USERNAME, principal.getName());
-        return gameService.start(principal.getName());
+        return ResponseEntity.ok(gameService.start(principal.getName()));
+    }
+
+    @MessageMapping(SCORE_REQUEST_URL)
+    public void number(GameRequest request, Principal principal) {
+        gameService.number(request.getNumber(), principal.getName());
+    }
+
+    @MessageMapping(PLAY_URL)
+    public void play(GameRequest request, Principal principal) {
+        gameService.play(request, principal.getName());
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import static org.got.takeaway.utils.AppConst.*;
+
 /**
  * @author Aqib
  * @version 0.0.1-RELEASE
@@ -23,16 +25,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // broker will send message to client with prefix
-        registry.enableSimpleBroker("/queue");
+        registry.enableSimpleBroker(BROKER_NAME);
         // message will received on @MessageMapping with prefix
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.setApplicationDestinationPrefixes(APP_DEST_PREFIX);
         registry.setPreservePublishOrder(true);
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Enable endpoint for sockJs client
-        registry.addEndpoint("/takeaway-websockets").withSockJS();
+        registry.addEndpoint(SOCKJS_URL).withSockJS();
     }
 
     @Override
