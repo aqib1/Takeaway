@@ -12,6 +12,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
+
 import static java.util.Optional.ofNullable;
 import static org.got.takeaway.utils.AppConst.USERNAME;
 
@@ -42,6 +43,7 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
     private void playerAlreadyExists(String name) {
         if(repository.isExists(name)) {
             throw new DuplicatePlayerException("Player already exists with same name");
+
         }
     }
 

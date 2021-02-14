@@ -52,7 +52,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     private void updateAndNotifyOpponent(Player player) {
-        var disconnectResponse = factory.disconnectResponse(player.getName());
+        var disconnectResponse = factory.disconnectResponse(player.getOpponent().getName());
         player.setOpponent(null);
         player.setPlayerStatus(PlayerStatus.AVAILABLE);
         repository.save(player);

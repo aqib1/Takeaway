@@ -1,10 +1,8 @@
 package org.got.takeaway.service;
 
-import org.got.takeaway.domain.game.GameResponse;
+import org.got.takeaway.domain.base.BaseResponse;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
 public interface NotificationService {
-    void notifyPlayer(String name, ResponseEntity<GameResponse> response);
+    void notifyPlayer(String name, ResponseEntity<? extends BaseResponse> response);
 }

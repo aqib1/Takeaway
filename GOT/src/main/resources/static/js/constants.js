@@ -1,6 +1,7 @@
 var SOCKJS_URL = '/takeaway-websockets';
 var START_REQUEST_URL = '/app/start';
 var UPDATE_QUEUE_URL = '/user/queue/update';
+var UPDATE_ERROR_URL = '/user/queue/error';
 var SCORE_REQUEST_URL = '/app/score';
 var PLAY_URL = '/app/play';
 var INVALID_CLASS = 'invalid';

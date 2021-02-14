@@ -21,7 +21,7 @@ function start() {
         setConnected(true);
         console.log(frame);
         connectFallback();
-    });
+    }, parseError);
 }
 
 function connectFallback() {
@@ -33,9 +33,14 @@ function connectFallback() {
           console.log(gameResponse);
           messageParse();
        } else {
-
-      }
+         parseError(res.body.detailedMessage);
+       }
    });
+
+   stompClient.subscribe(UPDATE_ERROR_URL, function(response) {
+        console.log(response);
+   });
+
 }
 
 function messageParse() {
@@ -58,6 +63,10 @@ function messageParse() {
         }
        case GameStatus.PLAY: {
             play();
+            break;
+       }
+       case GameStatus.DISCONNECT: {
+            disconnected();
             break;
        }
        case GameStatus.OVER: {
@@ -207,6 +216,7 @@ function isPrimaryPlayer() {
 }
 
 function disconnected() {
+    messagePlayView(gameResponse.message);
     clearDiv(OPPONENT_ID);
     hideControls();
     gameResponse = null;
@@ -214,7 +224,17 @@ function disconnected() {
 }
 
 function parseError(error) {
-    $(ERROR_DISPLAY + ' span').html(error);
+    headerErrors = null;
+    if (error.headers && error.headers.message) {
+            headerErrors = error.headers.message;
+       }
+
+    if (headerErrors !== null) {
+        $(ERROR_DISPLAY + ' span').html(headerErrors);
+    } else {
+        $(ERROR_DISPLAY + ' span').html(error);
+    }
+
     $(ERROR_DISPLAY).show();
 }
 

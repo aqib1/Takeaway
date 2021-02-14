@@ -11,4 +11,5 @@ public interface AppConst {
     String PLAY_URL = "/play";
     String BROKER_NAME = "/queue";
     String UPDATE_QUEUE_URL = BROKER_NAME + "/update";
+    String UPDATE_ERROR_URL = BROKER_NAME + "/error";
 }
