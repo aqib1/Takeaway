@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class BaseResponse {
+public class Base {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);

@@ -1,14 +1,14 @@
 package org.got.takeaway.domain.game;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
+import org.got.takeaway.domain.base.Base;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Getter
-@Setter
 @ToString
-
-public class GameRequest {
+public class GameRequest extends Base {
     private int number;
     private int moveAttr;
 }

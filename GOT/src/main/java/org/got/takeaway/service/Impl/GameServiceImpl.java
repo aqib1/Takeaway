@@ -5,7 +5,7 @@ import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.message.MessageFactory;
 import org.got.takeaway.domain.player.Player;
 import org.got.takeaway.domain.player.PlayerStatus;
-import org.got.takeaway.exceptions.InvalidNumberException;
+import org.got.takeaway.exceptions.InvalidMoveException;
 import org.got.takeaway.exceptions.OpponentNotFoundException;
 import org.got.takeaway.exceptions.PlayerNotFoundException;
 import org.got.takeaway.service.GameService;
@@ -70,7 +70,7 @@ public class GameServiceImpl implements GameService {
 
     private void checkDivisible(int addition) {
         if(addition % DIVISOR != 0) {
-            throw new InvalidNumberException(String.format("%d is not divisible by %d", addition, DIVISOR));
+            throw new InvalidMoveException(String.format("%d is not divisible by %d", addition, DIVISOR));
         }
     }
 

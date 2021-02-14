@@ -20,6 +20,7 @@
 		<stomp.websocket>2.3.3</stomp.websocket>
 		<bootstrap.webjars>3.3.7</bootstrap.webjars>
 		<jquery.webjars>3.1.1-1</jquery.webjars>
+		<open.pojo.version>0.8.3</open.pojo.version>
 	</properties>
 
 	<dependencies>
@@ -75,6 +76,14 @@
 			<artifactId>jquery</artifactId>
 			<version>${jquery.webjars}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.openpojo</groupId>
+			<artifactId>openpojo</artifactId>
+			<version>${open.pojo.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

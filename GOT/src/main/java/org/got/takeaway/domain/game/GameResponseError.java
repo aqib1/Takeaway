@@ -1,10 +1,10 @@
 package org.got.takeaway.domain.game;
 
 import lombok.Builder;
-import org.got.takeaway.domain.base.BaseResponse;
+import org.got.takeaway.domain.base.Base;
 
 @Builder
-public class GameResponseError extends BaseResponse {
+public class GameResponseError extends Base {
     private String createdAt;
     private String detailedMessage;
     private int errorCode;

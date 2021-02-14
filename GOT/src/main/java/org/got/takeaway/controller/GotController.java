@@ -6,7 +6,6 @@ import org.got.takeaway.domain.game.GameResponseError;
 import org.got.takeaway.service.Impl.GameServiceImpl;
 import org.got.takeaway.utils.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -15,8 +14,6 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.got.takeaway.utils.AppConst.*;
 
