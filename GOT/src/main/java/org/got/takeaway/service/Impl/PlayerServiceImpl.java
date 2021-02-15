@@ -1,13 +1,16 @@
 package org.got.takeaway.service.Impl;
 
+import org.got.takeaway.domain.base.ResponseEntity;
+import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.message.MessageFactory;
 import org.got.takeaway.domain.player.Player;
 import org.got.takeaway.domain.player.PlayerStatus;
+import org.got.takeaway.exceptions.PlayerNotFoundException;
 import org.got.takeaway.repositories.PlayerRepository;
 import org.got.takeaway.service.NotificationService;
 import org.got.takeaway.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,11 +46,13 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void delete(String name) {
         ofNullable(repository.findByName(name))
-                .ifPresent(player -> {
+                .ifPresentOrElse(player -> {
                     repository.delete(name);
                     ofNullable(player.getOpponent()).ifPresent(opponent -> {
                         updateAndNotifyOpponent(opponent);
                     });
+                }, () -> {
+                    throw new PlayerNotFoundException("Player not exists!!!");
                 });
     }
 
@@ -56,7 +61,10 @@ public class PlayerServiceImpl implements PlayerService {
         player.setOpponent(null);
         player.setPlayerStatus(PlayerStatus.AVAILABLE);
         repository.save(player);
-        notificationService.notifyPlayer(player.getName(), ResponseEntity.ok(disconnectResponse));
+        notificationService.notifyPlayer(player.getName(),
+                ResponseEntity.<GameResponse>builder().body(disconnectResponse)
+                        .status(HttpStatus.OK).build()
+        );
     }
 
     @Override

@@ -1,40 +1,45 @@
 package org.got.takeaway.utility;
 
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.game.GameStatus;
 import org.got.takeaway.domain.player.Player;
 import org.got.takeaway.domain.player.PlayerStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static org.got.takeaway.utility.TestConst.*;
 
 public class DataHelper {
 
     public ResponseEntity<GameResponse> gameStartResponseEntity() {
-        return ResponseEntity.ok(gameStartResponse());
+        return ResponseEntity.<GameResponse>builder().body(gameStartResponse()).status(HttpStatus.OK).build();
     }
 
     public ResponseEntity<GameResponse> gamePlayResponseEntity() {
-        return ResponseEntity.ok(gamePlayResponse());
+        return ResponseEntity.<GameResponse>builder().body(gamePlayResponse()).status(HttpStatus.OK).build();
     }
 
     public ResponseEntity<GameResponse> gameWaitingResponseEntity() {
-        return ResponseEntity.ok(gameWaitingResponse());
+        return ResponseEntity.<GameResponse>builder().body(gameWaitingResponse()).status(HttpStatus.OK).build();
     }
 
     public ResponseEntity<GameResponse> gameDisconnectResponseEntity() {
-        return ResponseEntity.ok(gameDisconnectResponse());
+        return ResponseEntity.<GameResponse>builder().body(gameDisconnectResponse()).status(HttpStatus.OK).build();
     }
 
     public ResponseEntity<GameResponse> gameOverResponseEntity() {
-        return ResponseEntity.ok(gameOverResponse());
+        return ResponseEntity.<GameResponse>builder().body(gameOverResponse()).status(HttpStatus.OK).build();
     }
 
     public Optional<Player> optionalPlayer() {
@@ -61,12 +66,12 @@ public class DataHelper {
 
     public GameResponse gameDisconnectResponse() {
         return GameResponse.builder()
-                .status(GameStatus.WAITING)
-                .message("Waiting for opponent")
+                .status(GameStatus.DISCONNECT)
+                .message("Aqib disconnected from game")
                 .isWin(false)
-                .number(100)
-                .primary(true)
-                .opponent("Peter")
+                .number(0)
+                .primary(false)
+                .opponent(null)
                 .build();
     }
 
@@ -107,13 +112,29 @@ public class DataHelper {
         return new Player("Ahmad", null, true, PlayerStatus.AVAILABLE);
     }
 
+    public Player player(String name) {
+        return new Player(name, null, false, PlayerStatus.AVAILABLE);
+    }
+    public Player pairedPlayer(String name) {
+        return new Player(name, null, false, PlayerStatus.PAIRED);
+    }
+
     public Principal getPrincipal() {
-        return new Principal() {
-            @Override
-            public String getName() {
-                return "Aqib";
-            }
-        };
+        return () -> "Aqib";
+    }
+
+    public Map<String, String> getSessionMap() {
+        return Map.of(USERNAME, PLAYER_1);
+    }
+
+    public Message<byte[]> message() {
+        return MessageBuilder.withPayload(new byte[0])
+                .setHeader(StompHeaderAccessor.SESSION_ATTRIBUTES, getSessionMap())
+                .build();
+    }
+
+    public SessionDisconnectEvent sessionDisconnectEvent() {
+        return new SessionDisconnectEvent(new Object(), message(), SESSION_ID, CloseStatus.NORMAL);
     }
 
     public GameStatus [] getGameStatus() {
@@ -132,6 +153,7 @@ public class DataHelper {
                 PlayerStatus.AVAILABLE
         };
     }
+
 
     /**
      * Initialization on demand pattern

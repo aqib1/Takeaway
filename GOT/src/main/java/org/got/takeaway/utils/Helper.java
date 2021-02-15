@@ -1,9 +1,8 @@
 package org.got.takeaway.utils;
 
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.domain.game.GameResponseError;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 

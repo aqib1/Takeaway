@@ -28,7 +28,7 @@ function connectFallback() {
     send(START_REQUEST_URL);
     stompClient.subscribe(UPDATE_QUEUE_URL, function(response) {
     var res = JSON.parse(response.body);
-      if(res.statusCode === OK) {
+      if(res.status === OK) {
           gameResponse = res.body;
           console.log(gameResponse);
           messageParse();
@@ -269,6 +269,7 @@ function randomNumber() {
     });
 
     $(CLOSE_BTN_ID).click(function () {
+        clearDiv(OPPONENT_ID);
         closeStompClient();
         setConnected(false);
     });

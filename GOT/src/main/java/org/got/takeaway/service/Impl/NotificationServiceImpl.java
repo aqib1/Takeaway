@@ -1,9 +1,9 @@
 package org.got.takeaway.service.Impl;
 
 import org.got.takeaway.domain.base.Base;
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 

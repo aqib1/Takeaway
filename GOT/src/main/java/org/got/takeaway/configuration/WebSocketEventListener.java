@@ -22,10 +22,20 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketConnected(SessionConnectedEvent event) {
-        Player newPlayer = new Player();
-        newPlayer.setName(event.getUser().getName());
-        newPlayer.setPlayerStatus(PlayerStatus.AVAILABLE);
-        playerService.save(newPlayer);
+        ofNullable(event.getUser()).ifPresentOrElse(
+                principal -> ofNullable(principal.getName()).ifPresentOrElse((name) -> {
+                            Player newPlayer = new Player();
+                            newPlayer.setName(event.getUser().getName());
+                            newPlayer.setPlayerStatus(PlayerStatus.AVAILABLE);
+                            playerService.save(newPlayer);
+                        }, () -> {
+                            throw new RequestException("Invalid connection request [player name required]");
+                        }
+                ), () -> {
+                    throw new RequestException("Invalid connection request");
+                }
+        );
+
     }
 
 
@@ -35,7 +45,7 @@ public class WebSocketEventListener {
 
         ofNullable(accessor.getSessionAttributes().get(USERNAME))
                 .map(String.class::cast).ifPresentOrElse(playerService::delete, () -> {
-                    throw new RequestException("Invalid disconnect request");
+            throw new RequestException("Invalid disconnect request");
         });
     }
 }

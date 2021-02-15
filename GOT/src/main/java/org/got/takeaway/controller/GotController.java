@@ -1,12 +1,13 @@
 package org.got.takeaway.controller;
 
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.game.GameResponseError;
 import org.got.takeaway.service.Impl.GameServiceImpl;
 import org.got.takeaway.utils.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -36,7 +37,9 @@ public class GotController {
     @SendToUser(UPDATE_QUEUE_URL)
     public ResponseEntity<GameResponse> start(Principal principal, SimpMessageHeaderAccessor accessor) {
         accessor.getSessionAttributes().put(USERNAME, principal.getName());
-        return ResponseEntity.ok(gameService.start(principal.getName()));
+        return ResponseEntity.<GameResponse>builder().body(gameService.start(principal.getName()))
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @MessageMapping(SCORE_REQUEST_URL)

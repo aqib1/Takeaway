@@ -1,6 +1,7 @@
 package org.got.takeaway.unit.controller;
 
 import org.got.takeaway.controller.GotController;
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.utility.DataHelper;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.security.Principal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +30,7 @@ public class GotControllerUnitTest {
         Principal principal = dataHelper.getPrincipal();
 
         ResponseEntity<GameResponse> response = controller.start(principal, null);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(dataHelper.gameStartResponse(), response.getBody());
         verify(controller, times(1)).start(principal, null);
     }
@@ -44,7 +43,7 @@ public class GotControllerUnitTest {
         Principal principal = dataHelper.getPrincipal();
 
         ResponseEntity<GameResponse> response = controller.start(principal, null);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(dataHelper.gamePlayResponse(), response.getBody());
         verify(controller, times(1)).start(principal, null);
     }
@@ -57,7 +56,7 @@ public class GotControllerUnitTest {
         Principal principal = dataHelper.getPrincipal();
 
         ResponseEntity<GameResponse> response = controller.start(principal, null);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(dataHelper.gameWaitingResponse(), response.getBody());
         verify(controller, times(1)).start(principal, null);
     }
@@ -70,7 +69,7 @@ public class GotControllerUnitTest {
         Principal principal = dataHelper.getPrincipal();
 
         ResponseEntity<GameResponse> response = controller.start(principal, null);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(response.getStatus(), HttpStatus.OK);
         assertEquals(dataHelper.gameDisconnectResponse(), response.getBody());
         verify(controller, times(1)).start(principal, null);
     }
@@ -83,7 +82,7 @@ public class GotControllerUnitTest {
         Principal principal = dataHelper.getPrincipal();
 
         ResponseEntity<GameResponse> response = controller.start(principal, null);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(dataHelper.gameOverResponse(), response.getBody());
         verify(controller, times(1)).start(principal, null);
     }

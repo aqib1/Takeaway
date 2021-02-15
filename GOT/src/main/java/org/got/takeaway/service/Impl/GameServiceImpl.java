@@ -1,5 +1,6 @@
 package org.got.takeaway.service.Impl;
 
+import org.got.takeaway.domain.base.ResponseEntity;
 import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.message.MessageFactory;
@@ -10,7 +11,7 @@ import org.got.takeaway.exceptions.OpponentNotFoundException;
 import org.got.takeaway.exceptions.PlayerNotFoundException;
 import org.got.takeaway.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,9 +43,11 @@ public class GameServiceImpl implements GameService {
                 .ifPresentOrElse((player) -> {
                             verifyOpponent(player);
                             notificationService.notifyPlayer(player.getOpponent().getName(),
-                                    ResponseEntity.ok(messageFactory.playResponse(number, player)));
+                                    ResponseEntity.<GameResponse>builder().body(messageFactory.playResponse(number, player)).status(HttpStatus.OK).build());
                         },
-                        () -> new PlayerNotFoundException(String.format("[%s] player not exists in system!!", playerName)));
+                        () -> {
+                            throw new PlayerNotFoundException(String.format("[%s] player not exists in system!!", playerName));
+                        });
 
     }
 
@@ -52,24 +55,27 @@ public class GameServiceImpl implements GameService {
     public void play(GameRequest request, String playerName) {
         playerService.findByName(playerName)
                 .ifPresentOrElse(player -> {
-                    verifyOpponent(player);
-                    int addition = request.getNumber() + request.getMoveAttr();
-                    checkDivisible(addition);
-                    int newVal = addition / DIVISOR;
-                    if(newVal != 1) {
-                        notificationService.notifyPlayer(player.getOpponent().getName(),
-                                ResponseEntity.ok(messageFactory.playResponse(newVal, player)));
-                    } else {
-                        notificationService.notifyPlayer(player.getName(), ResponseEntity.ok(messageFactory.gameOverResponse(true)));
-                        notificationService.notifyPlayer(player.getOpponent().getName(), ResponseEntity.ok(messageFactory.gameOverResponse(false)));
-                    }
+                            verifyOpponent(player);
+                            int addition = request.getNumber() + request.getMoveAttr();
+                            checkDivisible(addition);
+                            int newVal = addition / DIVISOR;
+                            if (newVal != 1) {
+                                notificationService.notifyPlayer(player.getOpponent().getName(),
+                                        ResponseEntity.<GameResponse>builder().body(messageFactory.playResponse(newVal, player)).status(HttpStatus.OK).build());
+                            } else {
+                                notificationService.notifyPlayer(player.getName(), ResponseEntity.<GameResponse>builder().body(messageFactory.gameOverResponse(true)).status(HttpStatus.OK).build());
+                                notificationService.notifyPlayer(player.getOpponent().getName(), ResponseEntity.<GameResponse>builder().body(messageFactory.gameOverResponse(false)).status(HttpStatus.OK).build());
+                            }
 
-                },() -> new PlayerNotFoundException(String.format("[%s] player not exists in system!!", playerName)));
+                        }, () -> {
+                            throw new PlayerNotFoundException(String.format("[%s] player not exists in system!!", playerName));
+                        }
+                );
 
     }
 
     private void checkDivisible(int addition) {
-        if(addition % DIVISOR != 0) {
+        if (addition % DIVISOR != 0) {
             throw new InvalidMoveException(String.format("%d is not divisible by %d", addition, DIVISOR));
         }
     }
@@ -98,7 +104,7 @@ public class GameServiceImpl implements GameService {
                     player.setOpponent(availablePlayer);
                     // notify user about their opponents
                     notificationService.notifyPlayer(availablePlayer.getName(),
-                            ResponseEntity.ok(messageFactory.startingResponse(availablePlayer.getOpponent())));
+                            ResponseEntity.<GameResponse>builder().body(messageFactory.startingResponse(availablePlayer.getOpponent())).status(HttpStatus.OK).build());
                     return MessageFactory.getInstance().startingResponse(player.getOpponent());
                 });
     }

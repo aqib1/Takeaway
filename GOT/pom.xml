@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>org.got.takeaway</groupId>
-	<artifactId>game-of-three</artifactId>
+	<artifactId>got</artifactId>
 	<version>0.0.1-RELEASE</version>
 	<name>Game of Three</name>
 	<description>A simple GOT(Game of three) by takeaway.com</description>
@@ -83,7 +83,11 @@
 			<version>${open.pojo.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
