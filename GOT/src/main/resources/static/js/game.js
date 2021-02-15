@@ -216,6 +216,8 @@ function isPrimaryPlayer() {
 }
 
 function disconnected() {
+    number = 0;
+    random = 0;
     messagePlayView(gameResponse.message);
     clearDiv(OPPONENT_ID);
     hideControls();
@@ -269,6 +271,11 @@ function randomNumber() {
     });
 
     $(CLOSE_BTN_ID).click(function () {
+        number = 0;
+        random = 0;
+        clearDiv(OPPONENT_ID);
+        gameResponse = null;
+        primaryPlayer = true;
         clearDiv(OPPONENT_ID);
         closeStompClient();
         setConnected(false);
