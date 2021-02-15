@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-public class GOTApplicationTest {
+public class GOTApplicationUnitTest {
 
     @Autowired
     private ApplicationContext applicationContext;

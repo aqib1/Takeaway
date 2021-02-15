@@ -1,4 +1,4 @@
-package org.got.takeaway.unit.domain;
+package org.got.takeaway.unit.domain.game;
 
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
@@ -9,7 +9,7 @@ import com.openpojo.validation.test.impl.GetterTester;
 import org.got.takeaway.domain.game.GameRequest;
 import org.junit.jupiter.api.Test;
 
-public class GameRequestTest {
+public class GameRequestUnitTest {
 
     @Test
     public void gameRequestTest() {

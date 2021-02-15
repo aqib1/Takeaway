@@ -1,11 +1,11 @@
-package org.got.takeaway.unit.domain;
+package org.got.takeaway.unit.domain.base;
 
 import org.got.takeaway.domain.base.Base;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class BaseTest {
+public class BaseUnitTest {
 
     @Test
     public void baseMethods() throws NoSuchMethodException, SecurityException {

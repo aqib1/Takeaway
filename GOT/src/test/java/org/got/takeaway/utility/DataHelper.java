@@ -3,9 +3,17 @@ package org.got.takeaway.utility;
 import org.got.takeaway.domain.game.GameRequest;
 import org.got.takeaway.domain.game.GameResponse;
 import org.got.takeaway.domain.game.GameStatus;
+import org.got.takeaway.domain.player.Player;
+import org.got.takeaway.domain.player.PlayerStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHeaders;
 
 import java.security.Principal;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 public class DataHelper {
 
@@ -27,6 +35,10 @@ public class DataHelper {
 
     public ResponseEntity<GameResponse> gameOverResponseEntity() {
         return ResponseEntity.ok(gameOverResponse());
+    }
+
+    public Optional<Player> optionalPlayer() {
+        return ofNullable(player());
     }
 
     public GameRequest gameRequest() {
@@ -91,6 +103,10 @@ public class DataHelper {
                 .build();
     }
 
+    public Player player() {
+        return new Player("Ahmad", null, true, PlayerStatus.AVAILABLE);
+    }
+
     public Principal getPrincipal() {
         return new Principal() {
             @Override
@@ -107,6 +123,13 @@ public class DataHelper {
                 GameStatus.WAITING,
                 GameStatus.DISCONNECT,
                 GameStatus.OVER
+        };
+    }
+
+    public PlayerStatus [] getPlayerStatus() {
+        return new PlayerStatus[] {
+                PlayerStatus.PAIRED,
+                PlayerStatus.AVAILABLE
         };
     }
 
