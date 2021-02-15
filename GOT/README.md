@@ -4,13 +4,14 @@
 To run this application, you'll need:
 - Java 11 SDK
 - A modern web browser with JavaScript enabled.
+- Docker (in the case you want to run dockerrun.sh)
 
 ## Running the Application
-The application can be run from within a modern Java IDE with the entry class being `GameOfThreeApplication.java`.
+The application can be run from within a modern Java IDE with the entry class being `GOTApplication.java`.
 The application can also be run using Maven by executing the command: `mvn spring-boot:run` in the root folder of the application.
 
 ## Using the Application
-The application starts up on port 8080. Pointing your web browser to http://localhost:8080 should present
+The application starts up on port 8081. Pointing your web browser to http://localhost:8081 should present
 the application's landing page.
 
 To connect to the _game engine_, a **username** is required to identify each connected player. Feel free to type
@@ -30,4 +31,18 @@ After the random number has been generated, both players can go ahead with addin
 to the values they receive on subsequent instructions. This exchange continues until there is a winner.
 Players can choose to rematch after a game session has been concluded.
 
-Messages during game play are displayed in a _game board_. 
+Messages during game play are displayed in a _game board_.
+
+##Technologies
+- Java 11
+- Websockets with spring
+- Domain driven development
+- Test driven development
+- Junit4 & Junit5
+- Stamped lock (Optimistic locking)
+- Initialization on demand holder pattern
+- Builder pattern
+- Method chaining
+- Single responsibilities
+- Docker
+
