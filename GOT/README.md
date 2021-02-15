@@ -33,7 +33,7 @@ Players can choose to rematch after a game session has been concluded.
 
 Messages during game play are displayed in a _game board_.
 
-##Technologies
+## Technologies
 - Java 11
 - Websockets with spring
 - Domain driven development
