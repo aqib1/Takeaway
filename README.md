@@ -36,6 +36,9 @@ Messages during game play are displayed in a _game board_.
 ## Docker
 Docker run file is also added in project. Just run your docker on your system and run dockerrun.sh file from project. Application will be up on 8081.
 
+## Testing
+Both unit and integeration tests are added. You can find those in sperate folders.
+
 ## Technologies
 - Java 11
 - Websockets with spring
