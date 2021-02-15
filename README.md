@@ -33,6 +33,9 @@ Players can choose to rematch after a game session has been concluded.
 
 Messages during game play are displayed in a _game board_.
 
+## Docker
+Docker run file is also added in project. Just run your docker on your system and run dockerrun.sh file from project. Application will be up on 8081.
+
 ## Technologies
 - Java 11
 - Websockets with spring
